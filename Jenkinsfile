@@ -1,9 +1,40 @@
 pipeline {
-    agent any
+    agent {
+        node {
+            label 'docker-slave'
+        } 
+    }
     stages {
-        stage('Example') {
+
+        stage('Clone repository') {
+             agent {
+                node {
+                    label 'docker-slave'
+                } 
+            }
             steps {
-                echo "Running ${env.BUILD_ID} on ${env.JENKINS_URL}"
+                scm checkout
+            }
+        }
+
+        stage('Build') {
+             agent {
+                node {
+                    label 'docker-slave'
+                } 
+            }
+            steps {
+                sh "docker build ."
+            }
+        }
+        stage('Test') {
+             agent {
+                node {
+                    label 'docker-slave'
+                } 
+            }
+            steps {
+                sh "echo 'all is fine!'"
             }
         }
     }
