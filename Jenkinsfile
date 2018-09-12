@@ -14,6 +14,7 @@ pipeline {
             }
             steps {
                 scm checkout
+                echo "checkout"
             }
         }
 
@@ -25,6 +26,7 @@ pipeline {
             }
             steps {
                 sh "docker build ."
+                echo "build"
             }
         }
         stage('Test') {
